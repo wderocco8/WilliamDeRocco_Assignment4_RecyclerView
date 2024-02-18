@@ -28,7 +28,7 @@ class SevereCrimeHolder(
     private val binding: ListItemSevereCrimeBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(crime: Crime) {
-        binding.crimeTitle.text = crime.title + "**SEVERE CRIME**"
+        binding.crimeTitle.text = crime.title
         binding.crimeDate.text = crime.date.toString()
 
         binding.root.setOnClickListener {
