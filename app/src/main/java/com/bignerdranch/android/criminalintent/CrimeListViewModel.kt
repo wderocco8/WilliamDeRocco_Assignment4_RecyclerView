@@ -3,6 +3,7 @@ package com.bignerdranch.android.criminalintent
 import androidx.lifecycle.ViewModel
 import java.util.Date
 import java.util.UUID
+import kotlin.random.Random
 
 class CrimeListViewModel : ViewModel() {
 
@@ -14,7 +15,8 @@ class CrimeListViewModel : ViewModel() {
                 id = UUID.randomUUID(),
                 title ="Crime #$i",
                 date = Date(),
-                isSolved = i % 2 == 0
+                isSolved = i % 2 == 0,
+                requiresPolice = Random.nextBoolean()
             )
 
             crimes += crime

@@ -1,5 +1,6 @@
 package com.bignerdranch.android.criminalintent
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -26,7 +27,7 @@ class SevereCrimeHolder(
     private val binding: ListItemCrimeBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(crime: Crime) {
-        binding.crimeTitle.text = crime.title
+        binding.crimeTitle.text = crime.title + "**SEVERE CRIME**"
         binding.crimeDate.text = crime.date.toString()
 
         binding.root.setOnClickListener {
@@ -42,11 +43,19 @@ class SevereCrimeHolder(
 class CrimeListAdapter(
     private val crimes: List<Crime>
 ) : RecyclerView.Adapter<CrimeHolder>() {
+
+    companion object {
+        private const val VIEW_TYPE_NORMAL = true
+        private const val VIEW_TYPE_SEVERE = false
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): CrimeHolder {
         val inflater = LayoutInflater.from(parent.context)
+        val v = getItemViewType(viewType)
+        Log.d("VIEW TYPE", v.toString())
         val binding = ListItemCrimeBinding.inflate(inflater, parent, false)
         return CrimeHolder(binding)
     }
@@ -57,4 +66,13 @@ class CrimeListAdapter(
     }
 
     override fun getItemCount() = crimes.size
+
+//    override fun getItemViewType(position: Int): Int {
+//        val crime = crimes[position]
+//        return if (crime.requiresPolice) {
+//            VIEW_TYPE_SEVERE
+//        } else {
+//            VIEW_TYPE_NORMAL
+//        }
+//    }
 }
