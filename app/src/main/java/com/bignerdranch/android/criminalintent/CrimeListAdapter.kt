@@ -45,8 +45,8 @@ class CrimeListAdapter(
 ) : RecyclerView.Adapter<CrimeHolder>() {
 
     companion object {
-        private const val VIEW_TYPE_NORMAL = true
-        private const val VIEW_TYPE_SEVERE = false
+        private const val VIEW_TYPE_NORMAL = 1
+        private const val VIEW_TYPE_SEVERE = 0
     }
 
     override fun onCreateViewHolder(
@@ -55,7 +55,6 @@ class CrimeListAdapter(
     ): CrimeHolder {
         val inflater = LayoutInflater.from(parent.context)
         val v = getItemViewType(viewType)
-        Log.d("VIEW TYPE", v.toString())
         val binding = ListItemCrimeBinding.inflate(inflater, parent, false)
         return CrimeHolder(binding)
     }
@@ -67,12 +66,12 @@ class CrimeListAdapter(
 
     override fun getItemCount() = crimes.size
 
-//    override fun getItemViewType(position: Int): Int {
-//        val crime = crimes[position]
-//        return if (crime.requiresPolice) {
-//            VIEW_TYPE_SEVERE
-//        } else {
-//            VIEW_TYPE_NORMAL
-//        }
-//    }
+    override fun getItemViewType(position: Int): Int {
+        val crime = crimes[position]
+        return if (crime.requiresPolice) {
+            VIEW_TYPE_SEVERE
+        } else {
+            VIEW_TYPE_NORMAL
+        }
+    }
 }
