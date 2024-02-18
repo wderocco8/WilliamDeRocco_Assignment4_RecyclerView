@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.criminalintent.databinding.ListItemCrimeBinding
+import com.bignerdranch.android.criminalintent.databinding.ListItemSevereCrimeBinding
 
 class CrimeHolder(
     private val binding: ListItemCrimeBinding
@@ -24,7 +25,7 @@ class CrimeHolder(
     }
 }
 class SevereCrimeHolder(
-    private val binding: ListItemCrimeBinding
+    private val binding: ListItemSevereCrimeBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(crime: Crime) {
         binding.crimeTitle.text = crime.title + "**SEVERE CRIME**"
@@ -42,7 +43,7 @@ class SevereCrimeHolder(
 
 class CrimeListAdapter(
     private val crimes: List<Crime>
-) : RecyclerView.Adapter<CrimeHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         private const val VIEW_TYPE_NORMAL = 1
@@ -52,16 +53,24 @@ class CrimeListAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): CrimeHolder {
+    ): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val v = getItemViewType(viewType)
         val binding = ListItemCrimeBinding.inflate(inflater, parent, false)
-        return CrimeHolder(binding)
+        val severeBinding = ListItemSevereCrimeBinding.inflate(inflater, parent, false)
+
+        return when (viewType) {
+            VIEW_TYPE_SEVERE -> SevereCrimeHolder(severeBinding)
+            else -> CrimeHolder(binding)
+        }
     }
 
-    override fun onBindViewHolder(holder: CrimeHolder, position: Int) {
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val crime = crimes[position]
-        holder.bind(crime)
+        when (holder) {
+            is SevereCrimeHolder -> holder.bind(crime)
+            is CrimeHolder -> holder.bind(crime)
+        }
     }
 
     override fun getItemCount() = crimes.size
